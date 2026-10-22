@@ -154,8 +154,29 @@
             const senha = document.getElementById("senha").value;
             const mensagem = document.getElementById("mensagem");
 
-            // Login de teste
+            // Busca a lista de usuários salvos pelo cadastro.
+            // Se não tiver ninguém cadastrado, usamos uma lista vazia [].
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            // Aqui vamos guardar a pessoa encontrada (começa vazio)
+            let usuarioEncontrado = null;
+
+            // Login de teste: o admin continua funcionando
             if (usuario === "admin" && senha === "1234") {
+                usuarioEncontrado = { nome: "Administrador" };
+            }
+
+            // Procura na lista alguém com o mesmo usuário E a mesma senha
+            for (let i = 0; i < usuarios.length; i++) {
+                if (usuarios[i].usuario === usuario && usuarios[i].senha === senha) {
+                    usuarioEncontrado = usuarios[i];
+                }
+            }
+
+            if (usuarioEncontrado !== null) {
+
+                // Guarda o nome de quem entrou, para a página inicial mostrar
+                localStorage.setItem("usuarioLogado", usuarioEncontrado.nome);
 
                 mensagem.textContent = "Login realizado! Entrando...";
                 mensagem.style.color = "green";

@@ -230,7 +230,38 @@
                 return;
             }
 
-            // Passou em todas as validações!
+            // ===== SALVANDO O CADASTRO NO NAVEGADOR =====
+
+            // 1. Busca a lista de usuários já salvos no localStorage.
+            //    O localStorage só guarda TEXTO, então usamos JSON.parse
+            //    para transformar o texto de volta em uma lista (array).
+            //    Se ainda não existir nada salvo, começamos com uma lista vazia [].
+            const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+            // 2. Verifica se o nome de usuário já foi cadastrado antes
+            for (let i = 0; i < usuarios.length; i++) {
+                if (usuarios[i].usuario === usuario.value) {
+                    marcarErro(usuario, "Esse usuário já existe. Escolha outro.");
+                    return;
+                }
+            }
+
+            // 3. Cria um objeto com os dados da nova pessoa
+            const novoUsuario = {
+                nome: nome.value.trim(),
+                email: email.value,
+                usuario: usuario.value,
+                senha: senha.value
+            };
+
+            // 4. Adiciona o novo usuário no final da lista
+            usuarios.push(novoUsuario);
+
+            // 5. Salva a lista atualizada no localStorage.
+            //    JSON.stringify transforma a lista em texto para poder salvar.
+            localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+            // Passou em todas as validações e foi salvo!
             mostrarMensagem(
                 "Cadastro realizado, " + nome.value.trim() + "! Redirecionando para o login...",
                 "green"

@@ -106,7 +106,7 @@
     <main>
 
         <section class="welcome">
-            <h2>Bem-vindo ao Tech System!</h2>
+            <h2 id="boasVindas">Bem-vindo ao Tech System!</h2>
 
             <p>
                 Você entrou no sistema com sucesso.
@@ -141,7 +141,18 @@
     </main>
 
     <script>
+        // Pega o nome que a página de login salvou
+        const nomeLogado = localStorage.getItem("usuarioLogado");
+
+        // Se existir um nome salvo, troca o texto do título
+        if (nomeLogado) {
+            document.getElementById("boasVindas").textContent =
+                "Bem-vindo, " + nomeLogado + "!";
+        }
+
         function sair() {
+            // Apaga quem estava logado antes de voltar para o login
+            localStorage.removeItem("usuarioLogado");
             window.location.href = "login.html";
         }
     </script>
