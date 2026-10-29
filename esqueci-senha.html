@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - Tech System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        main {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .descricao {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        /* Borda vermelha quando o e-mail estiver errado */
+        input.erro {
+            border-color: #dc2626;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        /* Botão desativado depois de enviar */
+        button:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <h1>Tech System</h1>
+        <h2>Recuperar Senha</h2>
+
+        <p class="descricao">
+            Digite o e-mail cadastrado e enviaremos um link
+            para você criar uma nova senha.
+        </p>
+
+        <form id="formRecuperar">
+
+            <label for="email">E-mail:</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+
+            <button type="submit" id="botaoEnviar">Enviar link</button>
+
+        </form>
+
+        <p id="mensagem"></p>
+
+        <div class="links">
+            <p>
+                Lembrou a senha?
+                <a href="login.html">Voltar para o login</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        const formRecuperar = document.getElementById("formRecuperar");
+        const mensagem = document.getElementById("mensagem");
+        const botaoEnviar = document.getElementById("botaoEnviar");
+
+        formRecuperar.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email");
+
+            // Limpa o erro da tentativa anterior
+            email.classList.remove("erro");
+
+            // Validação: e-mail precisa ter @ e ponto
+            if (!email.value.includes("@") || !email.value.includes(".")) {
+                email.classList.add("erro");
+                email.focus();
+                mensagem.textContent = "Digite um e-mail válido.";
+                mensagem.style.color = "red";
+                return;
+            }
+
+            // Simula o envio: desativa o botão e mostra "Enviando..."
+            botaoEnviar.disabled = true;
+            botaoEnviar.textContent = "Enviando...";
+
+            setTimeout(function() {
+                mensagem.textContent =
+                    "Pronto! Enviamos um link de recuperação para " + email.value;
+                mensagem.style.color = "green";
+                botaoEnviar.textContent = "Link enviado";
+
+                // Depois de 3 segundos, volta para o login
+                setTimeout(function() {
+                    window.location.href = "login.html";
+                }, 3000);
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>
